@@ -1,0 +1,9 @@
+python-heatclient
+python-novaclient
+python-ironicclient
+python-cinderclient
+python-ceilometerclient
+python-neutronclient
+python-glanceclient
+python-swiftclient
+python-keystoneclient
