@@ -1,3 +1,4 @@
+oslo.utils
 python-heatclient
 python-novaclient
 python-ironicclient
