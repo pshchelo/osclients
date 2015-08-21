@@ -12,7 +12,8 @@ if neutronclient:
 
 keystoneclient = importutils.try_import("keystoneclient")
 if keystoneclient:
-    from keystoneclient import client as keystone_client
+    from keystoneclient.v2_0 import client as ks2client
+    from keystoneclient.v3 import client as ks3client
 
 glanceclient = importutils.try_import("glanceclient")
 if glanceclient:
@@ -69,9 +70,19 @@ def get_keystone(auth=default_auth, version=2):
     if not keystoneclient:
         raise ClientNotFound
     if version == 3:
-        raise ClientNotImplemented
+        auth_url = auth['os_auth_url'].replace('v2.0', 'v3')
+        keystone_client = ks3client
     else:
-        raise ClientNotImplemented
+        auth_url = auth['os_auth_url']
+        keystone_client = ks2client
+    kc = keystone_client.Client(username=auth['os_username'],
+                            password=auth['os_password'],
+                            project_name=auth['os_tenant_name'],
+                            auth_url=auth_url,
+                            endpoint=auth_url,
+                            verify=False)
+    kc.authenticate()
+    return kc
 
 def get_neutron(auth=default_auth):
     if not neutronclient:
