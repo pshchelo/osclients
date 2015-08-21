@@ -2,7 +2,7 @@
 
 from novaclient import client as nova_client
 from neutronclient import client as neutron_client
-from keystone_client import client as keystone_client
+from keystoneclient import client as keystone_client
 from glanceclient import client as glance_client
 from swiftclient import client as swift_client
 from ironicclient import client as ironic_client
