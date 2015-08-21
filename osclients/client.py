@@ -1,51 +1,110 @@
 #!/usr/bin/env python                                                                                                                                              [5/65]
 
-from novaclient import client as nova_client
-from neutronclient import client as neutron_client
-from keystoneclient import client as keystone_client
-from glanceclient import client as glance_client
-from swiftclient import client as swift_client
-from ironicclient import client as ironic_client
-from ceilometerclient import client as ceilometer_client
-from heatclient import client as heat_client
-from cinderclient import client as cinder_client
+from oslo_utils import importutils
 
-auth = {
+novaclient = importutils.try_import("novaclient")
+if novaclient:
+    from novaclient import client as nova_client
+
+neutronclient = importutils.try_import("neutronclient")
+if neutronclient:
+    from neutronclient import client as neutron_client
+
+keystoneclient = importutils.try_import("keystoneclient")
+if keystoneclient:
+    from keystoneclient import client as keystone_client
+
+glanceclient = importutils.try_import("glanceclient")
+if glanceclient:
+    from glanceclient import client as glance_client
+
+swiftclient = importutils.try_import("swiftclient")
+if swiftclient:
+    from swiftclient import client as swift_client
+
+ironicclient = importutils.try_import("ironicclient")
+if ironicclient:
+    from ironicclient import client as ironic_client
+
+ceilometerclient = importutils.try_import("ceilometerclient")
+if ceilometerclient:
+    from ceilometerclient import client as ceilometer_client
+
+heatclient = importutils.try_import("heatclient")
+if heatclient:
+    from heatclient import client as heat_client
+
+cinderclient = importutils.try_import("cinderclient")
+if cinderclient:
+    from cinderclient import client as cinder_client
+
+default_auth = {
     'os_username': 'admin',
     'os_tenant_name': 'admin',
     'os_password': 'admin',
     'os_auth_url': 'http://192.168.100.126:5000/v2.0'
 }
 
-def get_ironic(auth):
+class ClientNotFound(Exception):
+    pass
+
+class ClientNotImplemented(Exception):
+    pass
+
+def get_ironic(auth=default_auth):
+    if not ironicclient:
+        raise ClientNotFound
     return ironic_client.get_client(1, **auth)
 
-def get_nova(auth):
+def get_nova(auth=default_auth):
+    if not novaclient:
+        raise ClientNotFound
     return nova_client.Client(2,
                               auth['os_username'],
                               auth['os_password'],
                               auth['os_tenant_name'],
                               auth['os_auth_url'])
 
-def get_keystone(auth, version=2):
+def get_keystone(auth=default_auth, version=2):
+    if not keystoneclient:
+        raise ClientNotFound
     if version == 3:
-        pass
+        raise ClientNotImplemented
     else:
-        pass
+        raise ClientNotImplemented
 
-def get_neutron(auth):
-    pass
+def get_neutron(auth=default_auth):
+    if not neutronclient:
+        raise ClientNotFound
+    else:
+        raise ClientNotImplemented
 
-def get_glance(auth):
-    pass
+def get_glance(auth=default_auth):
+    if not glanceclient:
+        raise ClientNotFound
+    else:
+        raise ClientNotImplemented
 
-def get_cinder(auth):
-    pass
+def get_cinder(auth=default_auth):
+    if not cinderclient:
+        raise ClientNotFound
+    else:
+        raise ClientNotImplemented
 
-def get_heat(auth):
-    pass
-def get_ceilometer(auth):
-    pass
+def get_heat(auth=default_auth):
+    if not heatclient:
+        raise ClientNotFound
+    else:
+        raise ClientNotImplemented
 
-def get_swift(auth):
-    pass
+def get_ceilometer(auth=default_auth):
+    if not ceilometerclient:
+        raise ClientNotFound
+    else:
+        raise ClientNotImplemented
+
+def get_swift(auth=default_auth):
+    if not swiftclient:
+        raise ClientNotFound
+    else:
+        raise ClientNotImplemented
