@@ -1,4 +1,4 @@
-#!/usr/bin/env python                                                                                                                                              [5/65]
+#!/usr/bin/env python
 
 from oslo_utils import importutils
 
@@ -46,16 +46,20 @@ default_auth = {
     'os_auth_url': 'http://192.168.100.126:5000/v2.0'
 }
 
+
 class ClientNotFound(Exception):
     pass
 
+
 class ClientNotImplemented(Exception):
     pass
+
 
 def get_ironic(auth=default_auth):
     if not ironicclient:
         raise ClientNotFound
     return ironic_client.get_client(1, **auth)
+
 
 def get_nova(auth=default_auth):
     if not novaclient:
@@ -65,6 +69,7 @@ def get_nova(auth=default_auth):
                               auth['os_password'],
                               auth['os_tenant_name'],
                               auth['os_auth_url'])
+
 
 def get_keystone(auth=default_auth, version=2):
     if not keystoneclient:
@@ -76,46 +81,52 @@ def get_keystone(auth=default_auth, version=2):
         auth_url = auth['os_auth_url']
         keystone_client = ks2client
     kc = keystone_client.Client(username=auth['os_username'],
-                            password=auth['os_password'],
-                            project_name=auth['os_tenant_name'],
-                            auth_url=auth_url,
-                            endpoint=auth_url,
-                            verify=False)
+                                password=auth['os_password'],
+                                project_name=auth['os_tenant_name'],
+                                auth_url=auth_url,
+                                endpoint=auth_url,
+                                verify=False)
     kc.authenticate()
     return kc
 
+
 def get_neutron(auth=default_auth):
-    if not neutronclient:
+    if not neutron_client:
         raise ClientNotFound
     else:
         raise ClientNotImplemented
+
 
 def get_glance(auth=default_auth):
-    if not glanceclient:
+    if not glance_client:
         raise ClientNotFound
     else:
         raise ClientNotImplemented
+
 
 def get_cinder(auth=default_auth):
-    if not cinderclient:
+    if not cinder_client:
         raise ClientNotFound
     else:
         raise ClientNotImplemented
+
 
 def get_heat(auth=default_auth):
-    if not heatclient:
+    if not heat_client:
         raise ClientNotFound
     else:
         raise ClientNotImplemented
+
 
 def get_ceilometer(auth=default_auth):
-    if not ceilometerclient:
+    if not ceilometer_client:
         raise ClientNotFound
     else:
         raise ClientNotImplemented
 
+
 def get_swift(auth=default_auth):
-    if not swiftclient:
+    if not swift_client:
         raise ClientNotFound
     else:
         raise ClientNotImplemented
