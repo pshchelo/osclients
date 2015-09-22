@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+import os
+
 # later Juno onwards uses oslo_utils
 try:
     from oslo_utils import importutils
@@ -45,10 +47,10 @@ if cinderclient:
     from cinderclient import client as cinder_client
 
 default_auth = {
-    'os_username': 'admin',
-    'os_tenant_name': 'admin',
-    'os_password': 'admin',
-    'os_auth_url': 'http://192.168.100.126:5000/v2.0'
+    'os_username': os.environ.get('OS_USERNAME'),
+    'os_tenant_name': os.environ.get('OS_TENANT_NAME'),
+    'os_password': os.environ.get('OS_PASSWORD'),
+    'os_auth_url': os.environ.get('OS_AUTH_URL')
 }
 
 
