@@ -1,6 +1,11 @@
 #!/usr/bin/env python
 
-from oslo_utils import importutils
+# later Juno onwards uses oslo_utils
+try:
+    from oslo_utils import importutils
+# hack for early Juno and before
+except ImportError:
+    from oslo.utils import importutils
 
 novaclient = importutils.try_import("novaclient")
 if novaclient:
