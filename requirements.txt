@@ -1,10 +1,9 @@
-oslo.utils
-python-heatclient
-python-novaclient
-python-ironicclient
-python-cinderclient
 python-ceilometerclient
-python-neutronclient
+python-cinderclient
 python-glanceclient
-python-swiftclient
+python-heatclient
+python-ironicclient
 python-keystoneclient
+python-neutronclient
+python-novaclient
+python-swiftclient
